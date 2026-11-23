@@ -69,10 +69,10 @@ async function env(){
  d.foto=$('fo').files[0]?await comp($('fo').files[0]):'';
  try{
   const r=await fetch(URL_APP,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
-  const j=await r.json();if(!j.ok)throw 0;
+  const j=await r.json();if(!j.ok)throw new Error(j.erro||'resposta inválida');
   try{localStorage.setItem('resp',d.responsavel)}catch(e){}
   done=true;$('f').classList.add('hide');$('k').classList.remove('hide');$('b').disabled=false;$('b').textContent='NOVO REGISTRO';
- }catch(e){$('e').textContent='Erro ao salvar. Tente novamente.';$('b').disabled=false;$('b').textContent='REGISTRAR'}
+ }catch(e){$('e').textContent='Erro ao salvar: '+String(e.message||e).slice(0,90);$('b').disabled=false;$('b').textContent='REGISTRAR'}
 }
 function novo(){done=false;['vei','comb','lit','med','obs','fo'].forEach(i=>$(i).value='');$('fo').onchange();$('b').textContent='REGISTRAR';$('k').classList.add('hide');$('f').classList.remove('hide')}
 </script></body></html>
